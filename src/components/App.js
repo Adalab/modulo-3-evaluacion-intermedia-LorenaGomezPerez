@@ -1,8 +1,20 @@
 
 import '../styles/App.scss';
 import originalData from '../data/characters.json';
+import { useState } from 'react';
 
 function App() {
+
+  const [data, setdata] = useState(originalData);
+
+  const html = data.map((dataCharacter, index) =>
+  <li key={index}>
+    <p>{dataCharacter.quote}</p>
+    <p>{dataCharacter.character}</p>
+    </li>
+  );
+
+  
   return (
     <div >
       <header>
@@ -14,6 +26,11 @@ function App() {
           <input type="" placeholder='Todos'></input>
         </nav>
       </header>
+      <main>
+        <ul>
+          {html}
+        </ul> 
+      </main>
 
       <div>
         <h2>Añadir una nueva frase</h2>
@@ -25,7 +42,9 @@ function App() {
       </div>
       
     </div>
+  
   );
+  
 }
 
 export default App;
