@@ -5,20 +5,36 @@ import { useState } from 'react';
 
 function App() {
 
+  //Variables de estado
+
   const [data, setdata] = useState(originalData);
   const [newList, setNewList] = useState("");
+  const [dataFilter, setDataFilter] = useState("");
+  const [dataCharacter, setDataCharacter] = useState("");
 
-  const html = data.map((dataCharacter, index) =>
+  //Hago map para recorrer el array y lo pinte
+
+  const html = data
+  .filter((quoteFilter)=>
+  quoteFilter.quote.toLowerCase().includes(dataFilter.toLowerCase()))
+  .filter((characterFilter)=>
+  characterFilter.character.includes(dataCharacter))
+  .map((dataCharacter, index) =>
   <li key={index}>
     <p>{dataCharacter.quote}</p>
     <p>{dataCharacter.character}</p>
     </li>
   );
 
+
+  //Función manejadora para añadir nueva frase
+
   const handleNewList = (ev) => {
     setNewList(ev.target.value);
     
   }
+
+  //Función manejadora del botón
 
   const handleClickButton = () => {
 
@@ -35,17 +51,53 @@ function App() {
     });
 }
 
+//función para controlar el formulario
+
+const handleForm = (ev) => {
+  ev.preventDefault();
+}
+
+//función manejadora para controlar el filtrado por frase
+
+const handleFilterData = (ev) => {
+
+  setDataFilter(ev.target.value);
+
+}
+
+//función manejadora para controlar el filtrado por personaje
+
+const handleFilterCharacter = (ev) => {
+
+  setDataCharacter(ev.target.value);
+
+}
+
+
+
   
   return (
     <div >
       <header>
         <h1>Frases de friends</h1>
-        <nav>
-          <label htmlFor="">Filtrar por frases</label>
-          <input type="text" />
-          <label htmlFor="">Filtrar por personajes</label>
-          <input type="" placeholder='Todos'></input>
-        </nav>
+        <form onSubmit={handleForm}>
+          <label htmlFor="listPhrase">Filtrar por frases</label>
+          <input type="text" value={dataFilter} onChange={handleFilterData}/>
+          <label htmlFor="list">Filtrar por personajes</label>
+          <select
+            name="list"
+            id="list"
+            value={dataCharacter}
+            onChange={handleFilterCharacter}>
+            <option>Todos</option>
+            <option>Ross</option>
+            <option>Phoebe</option>
+            <option>Joey</option>
+            <option>Rachel</option>
+            <option>Monica</option>
+            <option>Chandler</option>
+          </select>
+        </form>
       </header>
       <main>
         <ul>
